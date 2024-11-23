@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.melendez.paulo.frontend_proyecto.network.ApiClient
@@ -33,6 +34,7 @@ class RegisterActivity : AppCompatActivity() {
         val etTelefono = findViewById<EditText>(R.id.etTelefono)
         val etDireccion = findViewById<EditText>(R.id.etDireccion)
         val btnSignUp = findViewById<Button>(R.id.btnSignUp)
+        val tvLogin = findViewById<TextView>(R.id.textView2)
 
         btnSignUp.setOnClickListener {
             val username = etUsername.text.toString().trim()
@@ -51,23 +53,12 @@ class RegisterActivity : AppCompatActivity() {
             apiService.signUp(signUpRequest).enqueue(object : Callback<LoginResponse> {
                 override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                     if (response.isSuccessful) {
-                        val loginResponse = response.body()
-                        val token = loginResponse?.token
-                        if (token != null) {
-                            val sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-                            val editor = sharedPreferences.edit()
-                            editor.putString("access_token", token)
-                            editor.apply()
+                        Toast.makeText(this@RegisterActivity, "Registro exitoso. Redirigiendo a Promociones...", Toast.LENGTH_SHORT).show()
 
-                            Toast.makeText(this@RegisterActivity, "Registro exitoso. Redirigiendo a Login...", Toast.LENGTH_SHORT).show()
-
-                            // Redirigir al usuario a la pantalla de inicio de sesión
-                            val intent = Intent(this@RegisterActivity, Login::class.java)
-                            startActivity(intent)
-                            finish()
-                        } else {
-                            Toast.makeText(this@RegisterActivity, "Token no encontrado en la respuesta", Toast.LENGTH_SHORT).show()
-                        }
+                        // Redirigir al usuario a la pantalla de promociones
+                        val intent = Intent(this@RegisterActivity, FormularioActivity::class.java)
+                        startActivity(intent)
+                        finish()
                     } else {
                         Log.e("Register", "Fallo en el registro. Código: ${response.code()}")
                         Toast.makeText(this@RegisterActivity, "Fallo en el registro. Código: ${response.code()}", Toast.LENGTH_SHORT).show()
@@ -80,5 +71,12 @@ class RegisterActivity : AppCompatActivity() {
                 }
             })
         }
+
+        tvLogin.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)  // Asegúrate de usar el nombre correcto de la clase
+            startActivity(intent)
+            finish()
+        }
     }
 }
+

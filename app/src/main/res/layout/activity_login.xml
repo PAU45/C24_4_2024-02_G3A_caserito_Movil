@@ -18,7 +18,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
@@ -26,12 +28,12 @@
             android:layout_margin="16dp"
             app:cardElevation="8dp"
             app:cardCornerRadius="12dp"
-            app:cardBackgroundColor="#DDDDDD">
+            app:cardBackgroundColor="@android:color/white">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#DDDDDD"
+                android:background="@android:color/white"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="16dp">
@@ -39,10 +41,12 @@
                 <!-- Logo -->
                 <ImageView
                     android:id="@+id/logoImage"
-                    android:layout_width="314dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="260dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
                     android:layout_marginBottom="16dp"
                     android:contentDescription="@string/logo_description"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/caserito" />
 
                 <!-- Campo de usuario -->
@@ -50,29 +54,39 @@
                     android:id="@+id/textView4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Nombre de usuario o dirección de correo electrónico" />
+                    android:text="Nombre de usuario o dirección de correo electrónico"
+                    android:textColor="@android:color/black"/>
 
                 <EditText
                     android:id="@+id/etUsuario"
-                    android:layout_width="250dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/darker_gray"
                     android:hint="Usuario"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:layout_marginBottom="16dp"/>
 
                 <!-- Campo de contraseña -->
                 <TextView
                     android:id="@+id/textView5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Contraseña" />
+                    android:text="Contraseña"
+                    android:textColor="@android:color/black"/>
 
                 <EditText
                     android:id="@+id/etPassword"
-                    android:layout_width="250dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:backgroundTint="@android:color/darker_gray"
                     android:hint="Contraseña"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:layout_marginBottom="16dp"/>
 
                 <!-- Botón de Login -->
                 <TextView
@@ -81,16 +95,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="¿Has olvidado tu contraseña?"
-                    android:textColor="#666666" />
+                    android:textColor="@android:color/black" />
 
                 <Button
                     android:id="@+id/login_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:background="@drawable/rounded_button"
+                    android:backgroundTint="@color/design_default_color_secondary_variant"
                     android:text="LOGIN"
-                    android:textAllCaps="true"
+                    android:textAllCaps="false"
                     android:textColor="@android:color/white" />
 
                 <TextView
@@ -99,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="¿Aún no eres miembro? Regístrate ahora"
-                    android:textColor="#666666" />
+                    android:textColor="@android:color/black" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

@@ -8,14 +8,18 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/loguito"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/loguito"
         android:supportsRtl="true"
         android:theme="@style/Theme.Frontendproyecto"
         tools:targetApi="31">
+
         <activity
-            android:name=".RegisterActivity"
+            android:name=".MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,11 +27,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Login"
+            android:name=".RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".FormularioActivity"
             android:exported="false" />
+        <activity
+            android:name=".PromotionActivity"
+            android:exported="false" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
