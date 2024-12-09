@@ -66,16 +66,15 @@ class LoginActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                     if (response.isSuccessful) {
                         val loginResponse = response.body()
-                        val token = loginResponse?.token
+                        val token = loginResponse?.token  // Asegúrate de que 'token' sea correcto
                         if (token != null) {
                             // Guardar el token y el estado de inicio de sesión en SharedPreferences
-                            val sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
                             val editor = sharedPreferences.edit()
-                            editor.putString("access_token", token)
+                            editor.putString("token", token) // Asegúrate de que esta clave sea "token"
                             editor.putString("username", usuario)
                             editor.putBoolean("is_logged_in", true)
                             editor.apply()
-
+                            Log.d("LoginActivity", "Token guardado: $token")
                             Toast.makeText(this@LoginActivity, "Login exitoso. Redirigiendo a la pantalla principal...", Toast.LENGTH_SHORT).show()
 
                             // Redirigir al usuario a la pantalla principal

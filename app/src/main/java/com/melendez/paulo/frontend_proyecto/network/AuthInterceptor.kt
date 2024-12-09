@@ -2,20 +2,27 @@ package com.melendez.paulo.frontend_proyecto.network
 
 import android.content.Context
 import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.Response
-import java.io.IOException
 
-class AuthInterceptor(context: Context) : Interceptor {
-    private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-
-    @Throws(IOException::class)
+class AuthInterceptor(private val context: Context) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val token = sharedPreferences.getString("access_token", "") ?: ""
-        val newRequest: Request = chain.request().newBuilder()
+        // Recuperar el token desde SharedPreferences o almacenamiento seguro
+        val sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val token = sharedPreferences.getString("auth_token", null)
+
+        if (token.isNullOrEmpty()) {
+            throw UnauthorizedException("Token no disponible.")
+        }
+
+        // Añadir el token a las cabeceras de la solicitud
+        val request = chain.request().newBuilder()
             .addHeader("Authorization", "Bearer $token")
             .build()
-        return chain.proceed(newRequest)
+
+        // Continuar con la solicitud
+        return chain.proceed(request)
     }
 }
+
+// Excepción personalizada para manejo de error de autenticación
+class UnauthorizedException(message: String) : Exception(message)

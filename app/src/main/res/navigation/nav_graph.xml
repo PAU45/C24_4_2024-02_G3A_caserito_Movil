@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.melendez.paulo.frontend_proyecto.fragments.HomeFragment"
+        android:label="Home" />
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.melendez.paulo.frontend_proyecto.fragments.SearchFragment"
+        android:label="Search" />
+
+    <fragment
+    android:id="@+id/favoritesFragment"
+    android:name="com.melendez.paulo.frontend_proyecto.fragments.FavoritesFragment"
+    android:label="Favoritos" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.melendez.paulo.frontend_proyecto.fragments.ProfileFragment"
+        android:label="Perfil" />
+    <!-- Agrega más fragmentos según sea necesario -->
+
+    <fragment
+        android:id="@+id/empresaHomeFragment"
+        android:name="com.melendez.paulo.frontend_proyecto.fragments.empresa.EmpresaHomeFragment"
+        android:label="Empresa Home"
+        tools:layout="@layout/fragment_empresa_home" />
+
+    <fragment
+        android:id="@+id/empresaProfileFragment"
+        android:name="com.melendez.paulo.frontend_proyecto.fragments.empresa.EmpresaProfileFragment"
+        android:label="Empresa Profile"
+        tools:layout="@layout/fragment_empresa_profile" />
+
+</navigation>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8F8"
+
+    tools:context=".fragments.HomeFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Static Navbar for Search -->
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="8dp"
+            android:background="#008000">
+
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="¿Qué estás buscando?"
+                android:background="#FFFFFF"
+                android:padding="8dp" />
+
+            <Button
+                android:id="@+id/btnSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Buscar"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#005700"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
+        <!-- Bienvenida y Logout -->
+
+        <!-- Image Slider Section -->
+
+        <com.denzcoskun.imageslider.ImageSlider
+            android:id="@+id/slider"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="16dp"
+            app:iss_auto_cycle="true"
+            app:iss_delay="3000"
+            app:iss_period="5000" />
+
+        <TextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:text="Bienvenido"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"/>
+
+
+        <!-- Card Slider Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Seleccionados para ti"
+            android:textSize="18sp"
+            android:textColor="#008000"
+            android:layout_marginTop="16dp" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:shimmer_auto_start="true">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+        </androidx.cardview.widget.CardView>
+        <!-- Filter Slider Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Restaurantes populares"
+            android:textSize="18sp"
+            android:textColor="#008000"
+            android:layout_marginTop="16dp" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:shimmer_auto_start="true">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/anotherViewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+        </androidx.cardview.widget.CardView>
+        <!-- Additional Filter Slider Section -->
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:shimmer_auto_start="true">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/extraViewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+        </androidx.cardview.widget.CardView>
+        <!-- Categories Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Categorías"
+            android:textSize="18sp"
+            android:textColor="#008000"
+            android:layout_marginTop="16dp" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:shimmer_auto_start="true">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/categoriesViewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Ratings Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Valoraciones de Clientes"
+            android:textSize="18sp"
+            android:textColor="#008000"
+            android:layout_marginTop="16dp" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:shimmer_auto_start="true">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/ratingsViewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</ScrollView>
