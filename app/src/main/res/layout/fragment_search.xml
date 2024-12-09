@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@android:color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,7 +14,7 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:padding="8dp"
-        android:background="#008000">
+        android:background="@drawable/border">
 
         <EditText
             android:id="@+id/etSearch"
@@ -21,8 +22,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="¿Qué estás buscando?"
-            android:background="#FFFFFF"
-            android:padding="8dp" />
+            android:background="@drawable/edittext_border"
+            android:padding="8dp"
+            android:textColor="#000000" />
 
         <Button
             android:id="@+id/btnSearch"

@@ -24,6 +24,7 @@ class UpdateProfileFragment : Fragment() {
     private lateinit var etEmail: EditText
     private lateinit var etDireccion: EditText
     private lateinit var etTelefono: EditText
+    private lateinit var etAvatar: EditText
     private lateinit var btnSaveProfile: Button
 
     override fun onCreateView(
@@ -40,6 +41,7 @@ class UpdateProfileFragment : Fragment() {
         etEmail = view.findViewById(R.id.etEmail)
         etDireccion = view.findViewById(R.id.etDireccion)
         etTelefono = view.findViewById(R.id.etTelefono)
+        etAvatar = view.findViewById(R.id.etAvatar)
         btnSaveProfile = view.findViewById(R.id.btnSaveProfile)
 
         val token = getTokenFromPreferences()
@@ -64,7 +66,8 @@ class UpdateProfileFragment : Fragment() {
             usuario = etUsername.text.toString(),
             email = etEmail.text.toString(),
             direccion = etDireccion.text.toString(),
-            telefono = etTelefono.text.toString()
+            telefono = etTelefono.text.toString(),
+            avatar = etAvatar.text.toString()
         )
 
         val call = apiService.updateUserProfile("Bearer $token", userRequest)

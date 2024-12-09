@@ -8,9 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.melendez.paulo.frontend_proyecto.LoginActivity
 import com.melendez.paulo.frontend_proyecto.R
 import com.melendez.paulo.frontend_proyecto.fragments.empresa.EmpresaHomeFragment
@@ -29,6 +31,8 @@ class ProfileFragment : Fragment() {
     private lateinit var tvEmail: TextView
     private lateinit var tvDireccion: TextView
     private lateinit var tvTelefono: TextView
+    private lateinit var tvAvatar: TextView
+    private lateinit var imageProfile: ImageView
     private lateinit var btnUpdateProfile: Button
     private lateinit var btnChangeToEmpresa: Button
     private lateinit var btnLogout: Button
@@ -49,6 +53,8 @@ class ProfileFragment : Fragment() {
         tvEmail = view.findViewById(R.id.tvEmail)
         tvDireccion = view.findViewById(R.id.tvDireccion)
         tvTelefono = view.findViewById(R.id.tvTelefono)
+        tvAvatar = view.findViewById(R.id.tvAvatar)
+        imageProfile = view.findViewById(R.id.imageProfile)
         btnUpdateProfile = view.findViewById(R.id.btnUpdateProfile)
         btnChangeToEmpresa = view.findViewById(R.id.btnChangeToEmpresa)
         btnLogout = view.findViewById(R.id.btnLogout)
@@ -91,6 +97,15 @@ class ProfileFragment : Fragment() {
         tvEmail.text = sharedPreferences.getString("email", "Email no disponible")
         tvDireccion.text = sharedPreferences.getString("direccion", "Dirección no disponible")
         tvTelefono.text = sharedPreferences.getString("telefono", "Teléfono no disponible")
+        val avatarUrl = sharedPreferences.getString("avatar", null)
+        tvAvatar.text = avatarUrl ?: "Avatar no disponible"
+        avatarUrl?.let {
+            Glide.with(this)
+                .load(it)
+                .placeholder(R.drawable.ic_profile_placeholder)
+                .error(R.drawable.ic_profile_placeholder)
+                .into(imageProfile)
+        }
     }
 
     private fun getTokenFromPreferences(): String? {
@@ -116,6 +131,14 @@ class ProfileFragment : Fragment() {
                     tvEmail.text = userResponse?.email ?: "Email no disponible"
                     tvDireccion.text = userResponse?.direccion ?: "Dirección no disponible"
                     tvTelefono.text = userResponse?.telefono ?: "Teléfono no disponible"
+                    tvAvatar.text = userResponse?.avatar ?: "Avatar no disponible"
+                    userResponse?.avatar?.let {
+                        Glide.with(this@ProfileFragment)
+                            .load(it)
+                            .placeholder(R.drawable.ic_profile_placeholder)
+                            .error(R.drawable.ic_profile_placeholder)
+                            .into(imageProfile)
+                    }
 
                     // Guardar datos en SharedPreferences
                     saveUserToPreferences(userResponse)
@@ -137,12 +160,11 @@ class ProfileFragment : Fragment() {
             putString("email", userResponse?.email)
             putString("direccion", userResponse?.direccion)
             putString("telefono", userResponse?.telefono)
+            putString("avatar", userResponse?.avatar)
             putString("roles", userResponse?.roles?.joinToString(",")) // Guarda los roles como una cadena separada por comas
             apply()
         }
     }
-
-
 
     private fun navigateToUpdateProfile() {
         val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
@@ -150,7 +172,6 @@ class ProfileFragment : Fragment() {
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }
-
 
     private fun navigateToEmpresaFragments() {
         // Navegar a los fragments de empresa

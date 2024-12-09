@@ -112,7 +112,7 @@ class HomeFragment : Fragment() {
                             type = restaurant.tipo ?: "",
                             location = restaurant.ubicacion,
                             imageUrl = restaurant.img ?: "",
-                            isFavorite = false // Inicializa como no favorito
+                            isFavorite = loadFavoriteState(restaurant.restaurantId) // Cargar estado de favorito
                         )
                     } ?: emptyList()
 
@@ -129,12 +129,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupAdapters(items: List<Item>, token: String) {
-        adapter = RecyclerViewAdapter(items, token, ::addFavorite)
+        adapter = RecyclerViewAdapter(items, token, ::addFavorite, ::saveFavoriteState, ::loadFavoriteState)
         viewPager.adapter = adapter
 
-        anotherViewPager.adapter = RecyclerViewAdapter(items, token, ::addFavorite)
-        categoriesViewPager.adapter = RecyclerViewAdapter(items, token, ::addFavorite)
-        ratingsViewPager.adapter = RecyclerViewAdapter(items, token, ::addFavorite)
+        anotherViewPager.adapter = RecyclerViewAdapter(items, token, ::addFavorite, ::saveFavoriteState, ::loadFavoriteState)
+        categoriesViewPager.adapter = RecyclerViewAdapter(items, token, ::addFavorite, ::saveFavoriteState, ::loadFavoriteState)
+        ratingsViewPager.adapter = RecyclerViewAdapter(items, token, ::addFavorite, ::saveFavoriteState, ::loadFavoriteState)
     }
 
     private fun addFavorite(token: String, restauranteId: Int) { // Cambiado a Int
@@ -159,5 +159,17 @@ class HomeFragment : Fragment() {
                 Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_LONG).show()
             }
         })
+    }
+
+    private fun saveFavoriteState(restauranteId: Int, isFavorite: Boolean) {
+        val sharedPreferences = requireActivity().getSharedPreferences("favorites_prefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("favorite_$restauranteId", isFavorite)
+        editor.apply()
+    }
+
+    private fun loadFavoriteState(restauranteId: Int): Boolean {
+        val sharedPreferences = requireActivity().getSharedPreferences("favorites_prefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getBoolean("favorite_$restauranteId", false)
     }
 }

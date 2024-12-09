@@ -29,6 +29,12 @@
         android:layout_height="wrap_content"
         android:hint="Teléfono" />
 
+    <EditText
+        android:id="@+id/etAvatar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Avatar URL" />
+
     <Button
         android:id="@+id/btnSaveProfile"
         android:layout_width="wrap_content"

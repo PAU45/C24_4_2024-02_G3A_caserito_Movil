@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 class RecyclerViewAdapter(
     private val items: List<Item>,
     private val token: String,
-    private val addFavorite: (String, Int) -> Unit // Cambiar a Int
+    private val addFavorite: (String, Int) -> Unit, // Cambiar a Int
+    private val saveFavoriteState: (Int, Boolean) -> Unit,
+    private val loadFavoriteState: (Int) -> Boolean
 ) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -29,7 +31,8 @@ class RecyclerViewAdapter(
         holder.titleCard.text = item.title
         holder.textView3.text = item.description
 
-        // Cambiar el icono según el estado de favorito
+        // Cargar el estado de favorito
+        item.isFavorite = loadFavoriteState(item.id)
         holder.ivFavorite.setImageResource(
             if (item.isFavorite) R.drawable.relleno else R.drawable.heart
         )
@@ -43,6 +46,7 @@ class RecyclerViewAdapter(
                 holder.ivFavorite.setImageResource(R.drawable.relleno) // Cambiar a corazón lleno
             }
             item.isFavorite = !item.isFavorite // Alternar estado
+            saveFavoriteState(item.id, item.isFavorite) // Guardar el estado de favorito
         }
     }
 
