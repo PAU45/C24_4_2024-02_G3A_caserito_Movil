@@ -5,10 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.melendez.paulo.frontend_proyecto.network.Restaurant
+import com.melendez.paulo.frontend_proyecto.network.FavoriteRestaurant
 import com.melendez.paulo.frontend_proyecto.R
 
-class FavoritesAdapter(private val restaurants: List<Restaurant>) :
+class FavoritesAdapter(private val favoriteRestaurants: List<FavoriteRestaurant>) :
     RecyclerView.Adapter<FavoritesAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -24,11 +24,11 @@ class FavoritesAdapter(private val restaurants: List<Restaurant>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val restaurant = restaurants[position]
-        holder.name.text = restaurant.nombre
-        holder.location.text = restaurant.ubicacion
-        holder.description.text = restaurant.descripcion
+        val favoriteRestaurant = favoriteRestaurants[position]
+        holder.name.text = favoriteRestaurant.nombre
+        holder.location.text = favoriteRestaurant.ubicacion
+        holder.description.text = favoriteRestaurant.descripcion
     }
 
-    override fun getItemCount() = restaurants.size
+    override fun getItemCount() = favoriteRestaurants.size
 }

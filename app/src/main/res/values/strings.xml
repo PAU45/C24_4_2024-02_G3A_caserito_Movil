@@ -2,4 +2,7 @@
     <string name="app_name">frontend-proyecto</string>
     <string name="logo_description">Logo of Caserito</string>
 
+        <string name="restaurant_image">Restaurant Image</string>
+    <string name="splash_image">icono</string>
+    <string name="background_image_desc">Background Image</string>
 </resources>

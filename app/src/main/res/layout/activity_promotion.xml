@@ -13,16 +13,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/image" />
+        android:src="@drawable/image"
+        android:contentDescription="@string/background_image_desc" />
 
     <!-- Contenedor del mensaje y recordatorio -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp"
+        android:padding="24dp"
         android:gravity="center"
-        android:background="@android:color/white">
+        android:background="#CCFFFFFF">
 
         <!-- Mensaje principal -->
         <TextView
@@ -30,11 +31,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
-            android:text="¿Deseas aumentar los ingresos de tu restaurante y optimizar tu actividad? Comienza a recibir nuevas reservas de comensales locales y de todas partes del mundo."
+            android:layout_marginBottom="24dp"
+            android:text="Boost your restaurant's revenue and streamline your operations. Start receiving new reservations from local and global diners."
             android:textAlignment="center"
             android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-medium" />
 
         <!-- Recordatorio -->
         <TextView
@@ -42,10 +44,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Este es un recordatorio para mejorar tu negocio."
+            android:text="This is a reminder to enhance your business."
             android:textAlignment="center"
             android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textSize="18sp"
+            android:fontFamily="sans-serif" />
     </LinearLayout>
 
 </FrameLayout>

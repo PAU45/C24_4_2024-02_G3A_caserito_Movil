@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     kotlin("kapt")
+
+    id("kotlin-parcelize")
 }
 
 android {
@@ -40,6 +42,7 @@ android {
 }
 
 dependencies {
+    // Implementación de varias librerías
     implementation("com.caverock:androidsvg:1.4")
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation("androidx.fragment:fragment-ktx:1.3.6")
@@ -56,9 +59,11 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation("androidx.cardview:cardview:1.0.0")
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.junit.junit)
+    implementation(libs.androidx.junit.ktx)
     testImplementation(libs.junit)
-    implementation ("androidx.recyclerview:recyclerview:1.2.1")
-    implementation ("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation("androidx.security:security-crypto:1.1.0-alpha03")
     implementation("androidx.security:security-crypto:1.0.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
@@ -67,17 +72,35 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("com.github.bumptech.glide:glide:4.12.0")
     kapt("com.github.bumptech.glide:compiler:4.12.0")
-    // Material Components
-    implementation ("com.google.android.material:material:1.9.0")
-    implementation ("com.github.bumptech.glide:glide:4.12.0")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
-    // Glide for image loading
-    implementation ("com.github.bumptech.glide:glide:4.15.1")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
 
+    // Material Components
+    implementation("com.google.android.material:material:1.9.0")
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
+
+    // Glide for image loading
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
+
+    // Dependencias para pruebas unitarias
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.mockito:mockito-core:4.0.0")
+    testImplementation("org.mockito:mockito-inline:4.0.0")
+    implementation("com.google.android.gms:play-services-maps:17.0.1")
+    implementation("com.google.maps:google-maps-services:0.18.0")
+    // Dependencias para pruebas instrumentadas
+    androidTestImplementation("org.mockito:mockito-android:4.0.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    implementation("com.google.android.gms:play-services-maps:18.0.2")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
     // Lottie for animations
-    implementation ("com.airbnb.android:lottie:6.0.0")
+    implementation("com.airbnb.android:lottie:6.0.0")
+
+    val nav_version = "2.5.3"
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 
     // Shimmer for loading effects
-    implementation ("com.facebook.shimmer:shimmer:0.5.0")
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 }

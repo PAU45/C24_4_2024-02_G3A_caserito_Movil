@@ -1,6 +1,6 @@
 package com.melendez.paulo.frontend_proyecto.network
 
-data class RatingRequest(
+data class CommentRequest(
     val restauranteId: Int,
-    val calificacion: Int
+    val comentario: String
 )

@@ -10,10 +10,11 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.melendez.paulo.frontend_proyecto.FavoritesAdapter
 import com.melendez.paulo.frontend_proyecto.R
+import com.melendez.paulo.frontend_proyecto.adapters.SearchAdapter
 import com.melendez.paulo.frontend_proyecto.network.ApiClient
 import com.melendez.paulo.frontend_proyecto.network.ApiService
 import com.melendez.paulo.frontend_proyecto.network.Restaurant
@@ -26,14 +27,13 @@ class SearchFragment : Fragment() {
     private lateinit var searchInput: EditText
     private lateinit var searchButton: Button
     private lateinit var tvAlert: TextView
-    private lateinit var rvFavorites: RecyclerView
-    private lateinit var favoritesAdapter: FavoritesAdapter
+    private lateinit var rvResults: RecyclerView
+    private lateinit var searchAdapter: SearchAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
@@ -43,19 +43,34 @@ class SearchFragment : Fragment() {
         searchInput = view.findViewById(R.id.etSearch)
         searchButton = view.findViewById(R.id.btnSearch)
         tvAlert = view.findViewById(R.id.tvAlert)
-        rvFavorites = view.findViewById(R.id.rvFavorites)
+        rvResults = view.findViewById(R.id.rvResults)
+
+        setupRecyclerView()
+        loadAllRestaurants()
 
         searchButton.setOnClickListener {
-            val location = searchInput.text.toString()
-            if (location.isNotEmpty()) {
-                searchLocation(location)
+            val nombre = searchInput.text.toString().trim()
+            if (nombre.isNotEmpty()) {
+                searchRestaurantsByName(nombre)
             } else {
-                Toast.makeText(requireContext(), "Please enter a location", Toast.LENGTH_SHORT).show()
+                loadAllRestaurants()
             }
         }
+    }
 
-        // Load all restaurants initially
-        loadAllRestaurants()
+    private fun setupRecyclerView() {
+        rvResults.layoutManager = LinearLayoutManager(requireContext())
+        searchAdapter = SearchAdapter(mutableListOf(), requireContext()) { restaurant ->
+            if (restaurant != null) {
+                val bundle = Bundle().apply {
+                    putParcelable("restaurant", restaurant)
+                }
+                findNavController().navigate(R.id.action_searchFragment_to_detalles, bundle)
+            } else {
+                Toast.makeText(requireContext(), "Restaurant data is missing", Toast.LENGTH_SHORT).show()
+            }
+        }
+        rvResults.adapter = searchAdapter
     }
 
     private fun loadAllRestaurants() {
@@ -66,31 +81,54 @@ class SearchFragment : Fragment() {
             override fun onResponse(call: Call<List<Restaurant>>, response: Response<List<Restaurant>>) {
                 if (response.isSuccessful) {
                     val restaurants = response.body() ?: emptyList()
-                    if (restaurants.isEmpty()) {
-                        tvAlert.text = "No hay restaurantes disponibles."
-                        tvAlert.visibility = View.VISIBLE
+                    if (restaurants.isNotEmpty()) {
+                        updateRestaurantList(restaurants)
                     } else {
-                        tvAlert.visibility = View.GONE
-                        favoritesAdapter = FavoritesAdapter(restaurants)
-                        rvFavorites.layoutManager = LinearLayoutManager(requireContext())
-                        rvFavorites.adapter = favoritesAdapter
+                        showNoResultsMessage("No hay restaurantes disponibles.")
                     }
                 } else {
-                    tvAlert.text = "Error al cargar los restaurantes."
-                    tvAlert.visibility = View.VISIBLE
+                    showNoResultsMessage("Error al cargar los restaurantes.")
                 }
             }
 
             override fun onFailure(call: Call<List<Restaurant>>, t: Throwable) {
-                tvAlert.text = "Error de red: ${t.message}"
-                tvAlert.visibility = View.VISIBLE
+                showNoResultsMessage("Error de red: ${t.message}")
             }
         })
     }
 
-    private fun searchLocation(location: String) {
-        // Implement your search logic here
-        Toast.makeText(requireContext(), "Searching for: $location", Toast.LENGTH_SHORT).show()
+    private fun searchRestaurantsByName(nombre: String) {
+        val apiService = ApiClient.getClient(requireContext()).create(ApiService::class.java)
+        val token = getTokenFromPreferences()
+
+        apiService.searchRestaurants("Bearer $token", nombre).enqueue(object : Callback<List<Restaurant>> {
+            override fun onResponse(call: Call<List<Restaurant>>, response: Response<List<Restaurant>>) {
+                if (response.isSuccessful) {
+                    val restaurants = response.body() ?: emptyList()
+                    if (restaurants.isNotEmpty()) {
+                        updateRestaurantList(restaurants)
+                    } else {
+                        showNoResultsMessage("No se encontraron restaurantes con ese nombre.")
+                    }
+                } else {
+                    showNoResultsMessage("Error al buscar restaurantes.")
+                }
+            }
+
+            override fun onFailure(call: Call<List<Restaurant>>, t: Throwable) {
+                showNoResultsMessage("Error de red: ${t.message}")
+            }
+        })
+    }
+
+    private fun updateRestaurantList(restaurants: List<Restaurant>) {
+        tvAlert.visibility = View.GONE
+        searchAdapter.updateData(restaurants)
+    }
+
+    private fun showNoResultsMessage(message: String) {
+        tvAlert.text = message
+        tvAlert.visibility = View.VISIBLE
     }
 
     private fun getTokenFromPreferences(): String? {

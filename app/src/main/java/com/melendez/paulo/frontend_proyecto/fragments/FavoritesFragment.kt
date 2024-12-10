@@ -13,7 +13,7 @@ import com.melendez.paulo.frontend_proyecto.R
 import com.melendez.paulo.frontend_proyecto.FavoritesAdapter
 import com.melendez.paulo.frontend_proyecto.network.ApiClient
 import com.melendez.paulo.frontend_proyecto.network.ApiService
-import com.melendez.paulo.frontend_proyecto.network.Restaurant
+import com.melendez.paulo.frontend_proyecto.network.FavoriteRestaurant
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,7 +37,7 @@ class FavoritesFragment : Fragment() {
         tvAlert = view.findViewById(R.id.tvAlert)
         rvFavorites = view.findViewById(R.id.rvFavorites)
 
-        // Load favorite restaurants instead of all
+        // Load favorite restaurants
         loadFavoriteRestaurants()
     }
 
@@ -45,16 +45,16 @@ class FavoritesFragment : Fragment() {
         val apiService = ApiClient.getClient(requireContext()).create(ApiService::class.java)
         val token = getTokenFromPreferences()
 
-        apiService.getFavoriteRestaurants("Bearer $token").enqueue(object : Callback<List<Restaurant>> {
-            override fun onResponse(call: Call<List<Restaurant>>, response: Response<List<Restaurant>>) {
+        apiService.getFavoriteRestaurants("Bearer $token").enqueue(object : Callback<List<FavoriteRestaurant>> {
+            override fun onResponse(call: Call<List<FavoriteRestaurant>>, response: Response<List<FavoriteRestaurant>>) {
                 if (response.isSuccessful) {
-                    val restaurants = response.body() ?: emptyList()
-                    if (restaurants.isEmpty()) {
+                    val favoriteRestaurants = response.body() ?: emptyList()
+                    if (favoriteRestaurants.isEmpty()) {
                         tvAlert.text = "No tienes restaurantes favoritos."
                         tvAlert.visibility = View.VISIBLE
                     } else {
                         tvAlert.visibility = View.GONE
-                        favoritesAdapter = FavoritesAdapter(restaurants)
+                        favoritesAdapter = FavoritesAdapter(favoriteRestaurants)
                         rvFavorites.layoutManager = LinearLayoutManager(requireContext())
                         rvFavorites.adapter = favoritesAdapter
                     }
@@ -64,7 +64,7 @@ class FavoritesFragment : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<List<Restaurant>>, t: Throwable) {
+            override fun onFailure(call: Call<List<FavoriteRestaurant>>, t: Throwable) {
                 tvAlert.text = "Error de red: ${t.message}"
                 tvAlert.visibility = View.VISIBLE
             }

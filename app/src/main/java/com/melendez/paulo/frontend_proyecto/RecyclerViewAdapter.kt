@@ -1,16 +1,24 @@
 package com.melendez.paulo.frontend_proyecto
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.melendez.paulo.frontend_proyecto.network.Restaurant
+
+import com.melendez.paulo.frontend_proyecto.fragments.detalles
 
 class RecyclerViewAdapter(
-    private val items: List<Item>,
+    private val context: Context,
+    private val items: List<Restaurant>,
     private val token: String,
-    private val addFavorite: (String, Int) -> Unit, // Cambiar a Int
+    private val addFavorite: (String, Int) -> Unit,
+    private val removeFavorite: (String, Int) -> Unit,
     private val saveFavoriteState: (Int, Boolean) -> Unit,
     private val loadFavoriteState: (Int) -> Boolean
 ) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
@@ -19,6 +27,46 @@ class RecyclerViewAdapter(
         val titleCard: TextView = itemView.findViewById(R.id.titleCard)
         val textView3: TextView = itemView.findViewById(R.id.textView3)
         val ivFavorite: ImageView = itemView.findViewById(R.id.ivFavorite)
+        val image: ImageView = itemView.findViewById(R.id.image)
+
+        fun bind(item: Restaurant) {
+            titleCard.text = item.nombre
+            textView3.text = item.descripcion
+
+            // Load the image using Glide
+            Glide.with(context)
+                .load(item.img)
+                .placeholder(R.color.black)
+                .into(image)
+
+            val isFavorite = loadFavoriteState(item.restaurantId)
+            updateFavoriteIcon(isFavorite)
+
+            ivFavorite.setOnClickListener {
+                if (isFavorite) {
+                    removeFavorite(token, item.restaurantId)
+                    saveFavoriteState(item.restaurantId, false)
+                } else {
+                    addFavorite(token, item.restaurantId)
+                    saveFavoriteState(item.restaurantId, true)
+                }
+                updateFavoriteIcon(!isFavorite)
+            }
+
+            itemView.setOnClickListener {
+                val intent = Intent(context, detalles::class.java)
+                intent.putExtra("restaurant", item)
+                context.startActivity(intent)
+            }
+        }
+
+        private fun updateFavoriteIcon(isFavorite: Boolean) {
+            if (isFavorite) {
+                ivFavorite.setImageResource(R.drawable.relleno)
+            } else {
+                ivFavorite.setImageResource(R.drawable.heart)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,30 +75,8 @@ class RecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = items[position]
-        holder.titleCard.text = item.title
-        holder.textView3.text = item.description
-
-        // Cargar el estado de favorito
-        item.isFavorite = loadFavoriteState(item.id)
-        holder.ivFavorite.setImageResource(
-            if (item.isFavorite) R.drawable.relleno else R.drawable.heart
-        )
-
-        holder.ivFavorite.setOnClickListener {
-            if (item.isFavorite) {
-                // Lógica para eliminar de favoritos
-                holder.ivFavorite.setImageResource(R.drawable.heart) // Cambiar a corazón vacío
-            } else {
-                addFavorite(token, item.id) // Aquí se usa Int
-                holder.ivFavorite.setImageResource(R.drawable.relleno) // Cambiar a corazón lleno
-            }
-            item.isFavorite = !item.isFavorite // Alternar estado
-            saveFavoriteState(item.id, item.isFavorite) // Guardar el estado de favorito
-        }
+        holder.bind(items[position])
     }
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
+    override fun getItemCount(): Int = items.size
 }
